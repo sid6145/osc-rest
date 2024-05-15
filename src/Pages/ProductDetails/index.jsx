@@ -8,7 +8,6 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import DoneIcon from "@mui/icons-material/Done";
 import { useDispatch, useSelector } from "react-redux";
 import ProductList from "../../components/ProductList";
-import useSocket from "../../customHooks/useSocket";
 import { addToCart, handleCartCountChange } from "../../redux/dashboardSlice";
 import { handleScrollIntoView } from "../../utils/helpers";
 
@@ -25,7 +24,6 @@ const ProductDetails = (props) => {
   const { productDetails,cart } = useSelector((state) => state.dashboardSlice);
   const increasedValue =
   productDetails?.prodMarketPrice + productDetails?.prodMarketPrice * (7 / 100);
-  const {sendMessage} = useSocket()
   const userData = JSON.parse(localStorage.getItem("userData"))
   const dispatch = useDispatch()
 

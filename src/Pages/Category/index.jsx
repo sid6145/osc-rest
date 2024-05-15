@@ -2,7 +2,6 @@ import React from "react";
 import "./category.css";
 import { Chip } from "@mui/material";
 import ProductList from "../../components/ProductList";
-import useSocket from "../../customHooks/useSocket";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -20,11 +19,8 @@ const Category = () => {
 
   const params = useParams();
 
-  const { sendMessage, socket } = useSocket();
-
   const setSelectedSortOption = (option) => {
     setSelectedOption(option);
-    sendMessage({ MT: "3", catId: params.catId, filter: option });
   };
 
   const onClickSort = (filterType) => {

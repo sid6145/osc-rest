@@ -9,31 +9,25 @@ import {
   handleProdQuantityUpdate,
   handleDeleteCartItem,
 } from "../../redux/dashboardSlice";
-import useSocket from "../../customHooks/useSocket";
 
 const CartItem = (props) => {
   const { cartData } = props;
-  const userData = JSON.parse(localStorage.getItem("userData"));
   const dispatch = useDispatch();
-  const { sendMessage } = useSocket();
   const increasedValue =
     cartData?.prodMarketPrice + cartData?.prodMarketPrice * (7 / 100);
 
   const handelProductQuantity = (prodId, shouldIncrease) => {
     if (shouldIncrease) {
-      sendMessage({ MT: "9", userId: userData.userId, prodId });
       dispatch(handleProdQuantityUpdate({ prodId, shouldIncrease }));
     } else {
       if (cartData.cartQty === 1) {
         return 
       }
-      sendMessage({ MT: "8", userId: userData.userId, prodId });
       dispatch(handleProdQuantityUpdate({ prodId, shouldIncrease }));
     }
   };
 
   const handleOnClickDelete = (prodId) => {
-    sendMessage({ MT: "10", userId: userData.userId, prodId });
     dispatch(handleDeleteCartItem(prodId));
   };
 

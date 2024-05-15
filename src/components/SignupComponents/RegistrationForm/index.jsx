@@ -50,7 +50,6 @@ function RegistrationForm(props) {
         confirmPassword: "",
       }}
       onSubmit={async (values, { resetForm }) => {
-        // @toDo API integration
         const payload = {
           name: values.fullName,
           email: values.email,

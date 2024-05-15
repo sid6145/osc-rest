@@ -3,23 +3,40 @@ import "./ProductList.css";
 import CustomButton from "../CustomButton";
 import ProductCard from "../ProductCard";
 import { Grid } from "@mui/material";
-import useSocket from "../../customHooks/useSocket";
 import { useNavigate } from "react-router-dom";
-import { handleScrollIntoView } from "../../utils/helpers";
+import { apiClient } from "../../api/apiClient";
+import { useDispatch } from "react-redux";
+import {
+  setProductDetails, setCategories
+} from "../../redux/dashboardSlice";
 
 const ProductList = (props) => {
-  const { categoryTitle, onClickViewAll, productData, scrollToTopId } = props;
-
-  const { sendMessage } = useSocket();
+  const { categoryTitle, productData } = props;
+  const userData = localStorage.getItem("userData")
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const onClickProduct = (prodId, catId) => {
+  const onClickProduct = async (prodId, catId) => {
     if (prodId) {
-      sendMessage({ MT: "2", catId, prodId });
-      navigate(`/product/${prodId}`)
+      const response = await apiClient.post("/product/details", {
+        userId: userData.userId,
+        catId: catId,
+        prodId: prodId,
+      });
+      if (response.code === 200) {
+        dispatch(setProductDetails(response.data));
+        navigate(`/product/${prodId}`);
+      }
     } else {
-      // sendMessage({MT: "3", catId, filter: "P" })
-      navigate(`/category/${catId}`)
+      const response = await apiClient.post("/category/details", {
+        userId: userData.userId,
+        catId: catId,
+        prodId: prodId,
+      });
+      if (response.code === 200) {
+        dispatch(setCategories(response.data));
+        navigate(`/category/${catId}`);
+      }
     }
   };
 

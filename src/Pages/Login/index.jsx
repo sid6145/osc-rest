@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import TextInput from "../../components/TextInput";
 import BaseHeader from "../../components/BaseHeader";
-import { URLS } from "../../constants";
+import { DEVICE_TYPE, URLS } from "../../constants";
 import ForgotPasswordModal from "../../components/ForgotPassModal";
 import CustomButton from "../../components/CustomButton";
 import { handleAlerts } from "../../utils/helpers";
@@ -71,7 +71,7 @@ const Login = (props) => {
               const payload = {
                 userId: values?.username,
                 password: values?.password,
-                loginDevice: "Web",
+                loginDevice: DEVICE_TYPE,
               };
               const response = await apiClient.post(URLS.LOGIN, payload);
               if (response.code === 200) {

@@ -6,7 +6,6 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import { Badge, Button, Drawer, IconButton } from "@mui/material";
-import useSocket from "../../customHooks/useSocket";
 import { apiClient } from "../../api/apiClient";
 import { URLS } from "../../constants";
 import { useNavigate } from "react-router-dom";
@@ -31,17 +30,15 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const DashboardHeader = (props) => {
+const DashboardHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [cartDrawer, setCartDrawer] = useState(false);
   const [totalCartPrice, setTotalCartPrice] = useState(0);
   const open = Boolean(anchorEl);
-  const { startConnection, closeConnection } = useSocket();
   const navigate = useNavigate();
-  const { sendMessage } = useSocket();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const firstName = userData.fullName.split(" ")[0];
-  const { cart, cartCount, isSocketConnected } = useSelector(
+  const { cart, cartCount } = useSelector(
     (state) => state.dashboardSlice
   );
   const increasedValue = totalCartPrice + totalCartPrice * (7 / 100);
@@ -53,8 +50,9 @@ const DashboardHeader = (props) => {
       sessionId: userData?.sessionId,
     };
     const response = await apiClient.post(URLS.LOGOUT, payload);
-    if (response?.code === 200) {
-      closeConnection();
+    if(response.code === 200) {
+      localStorage.clear()
+      navigate("/")
     }
   };
 
@@ -67,7 +65,6 @@ const DashboardHeader = (props) => {
   };
 
   useEffect(() => {
-    startConnection();
   }, []);
 
   useEffect(() => {
@@ -82,7 +79,6 @@ const DashboardHeader = (props) => {
 
 
   const handleCartClick = () => {
-    sendMessage({ MT: "6", userId: userData?.userId });
     setCartDrawer((prev) => !prev);
   };
 
@@ -91,7 +87,6 @@ const DashboardHeader = (props) => {
   };
 
   const onclickLogo = () => {
-    sendMessage({ MT: "11" });
     navigate("/dashboard");
   };
 

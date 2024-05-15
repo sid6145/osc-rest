@@ -73,7 +73,6 @@ export const dashboardSlice = createSlice({
       const prodIndex = state?.cart?.findIndex(
         (item) => item.productId === action.payload.productId
       );
-      console.log("prodIndex:::::",prodIndex);
       if (prodIndex >= 0) {
         state.cart[prodIndex].cartQty += 1;
       } else {

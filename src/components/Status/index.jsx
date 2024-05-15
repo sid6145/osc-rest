@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Status.css";
-import useSocket from "../../customHooks/useSocket";
 import { useSelector } from "react-redux";
 
 const Status = ({className}) => {
   const {isSocketConnected: connected} = useSelector(state => state.dashboardSlice)
-  console.log("connected", connected)
   return (
     <div
       className={`status-root ${connected ? "connected" : ""} ${
