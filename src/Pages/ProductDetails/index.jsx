@@ -28,7 +28,7 @@ const ProductDetails = (props) => {
   const dispatch = useDispatch()
 
   const onAddtoCart = (prodId) => {
-    sendMessage({ MT: "9", userId: userData.userId, prodId });
+    // sendMessage({ MT: "9", userId: userData.userId, prodId });
     const cartItem = {
       prodMarketPrice: productDetails.prodMarketPrice,
       prodName: productDetails.prodName,
