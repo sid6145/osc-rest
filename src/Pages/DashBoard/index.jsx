@@ -19,14 +19,14 @@ const Dashboard = (props) => {
 
   const getDashboardData = async () => {
     const payload = {
-      userId: userData.userId,
-      sessionId: userData.sessionId,
+      userId: userData?.userId,
+      sessionId: userData?.sessionId,
     };
     const response = await apiClient.post(URLS.DASHBOARD, payload);
     if (response?.code === 200) {
       dispatch(
         fetchDashboardData(
-          response?.dataObject?.data.length ? response.dataObject.data : []
+          response?.dataObject?.data?.length ? response.dataObject.data : []
         )
       );
     }

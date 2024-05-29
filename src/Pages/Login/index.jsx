@@ -25,11 +25,11 @@ const Login = (props) => {
   const userData = JSON.parse(localStorage.getItem("userData"))
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if(userData?.userId && userData?.sessionId) {
-      navigate("/dashboard")
-    }
-  },[userData, navigate])
+  // useEffect(() => {
+  //   if(userData?.userId && userData?.sessionId) {
+  //     navigate("/dashboard")
+  //   }
+  // },[userData, navigate])
 
   const onClickSignUp = () => {
     navigate("/sign-up?step=1");
