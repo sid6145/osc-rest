@@ -78,8 +78,12 @@ const DashboardHeader = () => {
   }, [cart]);
 
 
-  const handleCartClick = () => {
+  const handleCartClick = async () => {
     setCartDrawer((prev) => !prev);
+    const response = await apiClient.get(URLS.CART)
+    if(response.code === 200) {
+      dispatch(setCartData(response?.dataObject?.cartProducts ?? []))
+    }
   };
 
   const handleCartClose = () => {

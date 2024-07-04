@@ -24,17 +24,17 @@ const ProductList = (props) => {
         prodId: prodId,
       });
       if (response.code === 200) {
-        dispatch(setProductDetails(response.data));
+        dispatch(setProductDetails(response.dataObject));
         navigate(`/product/${prodId}`);
       }
     } else {
       const response = await apiClient.post("/category/details", {
         userId: userData.userId,
         catId: catId,
-        prodId: prodId,
+        filter: "P",
       });
       if (response.code === 200) {
-        dispatch(setCategories(response.data));
+        dispatch(setCategories(response?.dataObject?.products));
         navigate(`/category/${catId}`);
       }
     }

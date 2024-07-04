@@ -30,7 +30,7 @@ const ProductDetails = (props) => {
   const onAddtoCart = (prodId) => {
     // sendMessage({ MT: "9", userId: userData.userId, prodId });
     const cartItem = {
-      prodMarketPrice: productDetails.prodMarketPrice,
+      productPrice: productDetails.prodPrice,
       prodName: productDetails.prodName,
       productId: productDetails.prodId,
     };
@@ -101,7 +101,7 @@ const ProductDetails = (props) => {
               <p>Rated by 1896 & 512 Reviewed</p>
             </div>
             <div className="price-info">
-              <h4>₹{productDetails?.prodMarketPrice}</h4>
+              <h4>₹{productDetails?.prodPrice}</h4>
               <h5>₹ {increasedValue}</h5>
               <h6>7% off</h6>
             </div>

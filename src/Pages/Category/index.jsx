@@ -6,6 +6,9 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { apiClient } from "../../api/apiClient";
+import { URLS } from "../../constants";
+import { setCategories } from "../../redux/dashboardSlice";
 
 const Category = () => {
   const sortOptions = [
@@ -16,6 +19,7 @@ const Category = () => {
   ];
 
   const [selectedOption, setSelectedOption] = useState("P");
+  const userData = JSON.parse(localStorage.getItem("userData"));
 
   const params = useParams();
 
@@ -23,26 +27,42 @@ const Category = () => {
     setSelectedOption(option);
   };
 
+  const handleSortApi = async (key) => {
+    const response = await apiClient.post(URLS.PRODUCT_FILTER, {
+      userId: userData.userId,
+      catId: params.catId,
+      filter: key
+    })
+    if(response.code === 200) {
+      setCategories(response?.dataObject?.products)
+    }
+  }
+
   const onClickSort = (filterType) => {
     switch (filterType) {
       case "P": {
         setSelectedSortOption("P");
+        handleSortApi(filterType)
         break;
       }
       case "LH": {
         setSelectedSortOption("LH");
+        handleSortApi(filterType)
         break;
       }
       case "HL": {
         setSelectedSortOption("HL");
+        handleSortApi(filterType)
         break;
       }
       case "NF": {
         setSelectedSortOption("NF");
+        handleSortApi(filterType)
         break;
       }
       default: {
         setSelectedSortOption("P");
+        handleSortApi(filterType)
         break;
       }
     }

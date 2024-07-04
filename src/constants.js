@@ -21,7 +21,13 @@ export const URLS = {
   OTP_FORGOT_PASS: `${BASE_URL_TWO}/user/validateOTPForForgotPassword`,
   CHANGE_PASSOWRD: `${BASE_URL_TWO}/user/changePassword`,
   RESEND_OTP: `${BASE_URL_TWO}/user/resendotp`,
-  DASHBOARD: `${BASE_URL_TWO}/user/dashboard`
+  DASHBOARD: `${BASE_URL_TWO}/user/dashboard`,
+  PRODUCT_DETAILS: `${BASE_URL_TWO}/product/details`,
+  PRODUCT_FILTER: `${BASE_URL_TWO}/product/filter`,
+  CART: `${BASE_URL_TWO}/user/cart/view`,
+  CART_INCREASE: `${BASE_URL_TWO}/user/cart/increase`,
+  CART_DECREASE: `${BASE_URL_TWO}/user/cart/decrease`,
+  CART_REMOVE: `${BASE_URL_TWO}/user/cart/remove`
 };
 
 // common value contants

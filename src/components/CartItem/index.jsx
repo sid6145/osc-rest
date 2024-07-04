@@ -9,25 +9,50 @@ import {
   handleProdQuantityUpdate,
   handleDeleteCartItem,
 } from "../../redux/dashboardSlice";
+import { URLS } from "../../constants";
 
 const CartItem = (props) => {
   const { cartData } = props;
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const dispatch = useDispatch();
   const increasedValue =
-    cartData?.prodMarketPrice + cartData?.prodMarketPrice * (7 / 100);
+    cartData?.productPrice + cartData?.productPrice * (7 / 100);
 
-  const handelProductQuantity = (prodId, shouldIncrease) => {
+  const handelProductQuantity = async (prodId, shouldIncrease) => {
     if (shouldIncrease) {
       dispatch(handleProdQuantityUpdate({ prodId, shouldIncrease }));
+      const response = await apiClient.post(URLS.CART_INCREASE, {
+        count: 1,
+        userId: userData.userId ,
+        prodId: prodId
+      });
+      if(response.code === 200) {
+        console.log("Success")
+      }
     } else {
       if (cartData.cartQty === 1) {
         return 
+      }
+      const response = await apiClient.post(URLS.CART_DECREASE,  {
+        count: 1,
+        userId: userData.userId ,
+        prodId: prodId
+      });
+      if(response.code === 200) {
+        console.log("Success")
       }
       dispatch(handleProdQuantityUpdate({ prodId, shouldIncrease }));
     }
   };
 
-  const handleOnClickDelete = (prodId) => {
+  const handleOnClickDelete = async (prodId) => {
+    const response = await apiClient.post(URLS.CART_INCREASE, {
+      userId: userData.userId ,
+      prodId: prodId
+    });
+    if(response.code === 200) {
+      console.log("Success")
+    }
     dispatch(handleDeleteCartItem(prodId));
   };
 
@@ -42,9 +67,9 @@ const CartItem = (props) => {
         ) : null}
       </div>
       <div className="prod-text-container">
-        <p>{cartData?.prodName}</p>
+        <p>{cartData?.productName}</p>
         <div className="prod-price">
-          <h4>₹{cartData?.prodMarketPrice}</h4>
+          <h4>₹{cartData?.productPrice}</h4>
           <h5>₹{increasedValue}</h5>
           <h6>7% off</h6>
         </div>
