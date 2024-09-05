@@ -9,37 +9,42 @@ import { useDispatch } from "react-redux";
 import {
   setProductDetails, setCategories
 } from "../../redux/dashboardSlice";
+import { URLS } from "../../constants";
 
 const ProductList = (props) => {
-  const { categoryTitle, productData } = props;
+  const { categoryTitle, productData, categoryId} = props;
   const userData = localStorage.getItem("userData")
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+
   const onClickProduct = async (prodId, catId) => {
+  console.log(prodId, catId)
     if (prodId) {
-      const response = await apiClient.post("/product/details", {
+      const response = await apiClient.post(URLS.PRODUCT_DETAILS, {
         userId: userData.userId,
-        catId: catId,
+        catId: catId || categoryId,
         prodId: prodId,
       });
-      if (response.code === 200) {
+      console.log("response::>",prodId)
+      if (response?.code === 200) {
         dispatch(setProductDetails(response.dataObject));
-        navigate(`/product/${prodId}`);
+        navigate(`/product/${prodId}?catId=${catId}`);
       }
     } else {
-      const response = await apiClient.post("/category/details", {
+      console.log("response:::",userData)
+      const response = await apiClient.post(URLS.PRODUCT_FILTER, {
         userId: userData.userId,
         catId: catId,
         filter: "P",
       });
-      if (response.code === 200) {
+      if (response?.code === 200) {
         dispatch(setCategories(response?.dataObject?.products));
         navigate(`/category/${catId}`);
       }
     }
   };
-
+console.log({productData})
   return (
     <div className="product-list-root">
       {categoryTitle ? (
@@ -57,9 +62,9 @@ const ProductList = (props) => {
                 <ProductCard
                   key={`featured-product-${index}`}
                   onClickProduct={onClickProduct}
-                  price={item?.prodMarketPrice}
+                  price={item?.prodMarketPrice || item?.productPrice}
                   percentOff={item?.prodMarketPrice && "%7 off"}
-                  title={item?.prodName || item?.categoryName}
+                  title={item?.prodName || item?.categoryName || item?.productName}
                   productId={item?.productId}
                   categoryId={item?.categoryId}
                   image={

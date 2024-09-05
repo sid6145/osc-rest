@@ -10,6 +10,7 @@ import {
   handleDeleteCartItem,
 } from "../../redux/dashboardSlice";
 import { URLS } from "../../constants";
+import {apiClient} from "../../api/apiClient"
 
 const CartItem = (props) => {
   const { cartData } = props;
@@ -30,7 +31,7 @@ const CartItem = (props) => {
         console.log("Success")
       }
     } else {
-      if (cartData.cartQty === 1) {
+      if (cartData.quantity === 1) {
         return 
       }
       const response = await apiClient.post(URLS.CART_DECREASE,  {
@@ -79,7 +80,7 @@ const CartItem = (props) => {
           >
             <RemoveCircleOutlineIcon htmlColor="#013678"/>
           </IconButton>
-          <div>{cartData?.cartQty}</div>
+          <div>{cartData?.quantity}</div>
           <IconButton
 
             onClick={() => handelProductQuantity(cartData?.productId, true)}

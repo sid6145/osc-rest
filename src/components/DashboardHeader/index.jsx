@@ -17,8 +17,9 @@ import { styled } from "@mui/material/styles";
 import CartPrice from "../CartPrice";
 import { useSelector } from "react-redux";
 import Status from "../Status";
-import { handleCartCountChange } from "../../redux/dashboardSlice";
+import { fetchDashboardData, handleCartCountChange } from "../../redux/dashboardSlice";
 import { useDispatch } from "react-redux";
+import { setCartData } from "../../redux/dashboardSlice";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -37,12 +38,28 @@ const DashboardHeader = () => {
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userData"));
-  const firstName = userData.fullName.split(" ")[0];
+  const firstName = userData?.fullName?.split(" ")[0];
   const { cart, cartCount } = useSelector(
     (state) => state.dashboardSlice
   );
   const increasedValue = totalCartPrice + totalCartPrice * (7 / 100);
   const dispatch = useDispatch()
+
+  const getDashboardData = async () => {
+    const payload = {
+      userId: userData?.userId,
+      sessionId: userData?.sessionId,
+    };
+    const response = await apiClient.post(URLS.DASHBOARD, payload);
+    if (response?.code === 200) {
+      dispatch(
+        fetchDashboardData(
+          response?.dataObject?.data?.length ? response.dataObject.data : []
+        )
+      );
+      navigate("/dashboard");
+    }
+  };
 
   const onClickLogout = async () => {
     const payload = {
@@ -71,7 +88,7 @@ const DashboardHeader = () => {
     let cartPrice = 0;
     cart?.length &&
       cart.forEach((item) => {
-        cartPrice += item?.prodMarketPrice * item?.cartQty;
+        cartPrice += item?.prodMarketPrice || item?.productPrice * item?.quantity;
       });
     setTotalCartPrice(cartPrice);
     dispatch(handleCartCountChange(cart?.length))
@@ -80,7 +97,7 @@ const DashboardHeader = () => {
 
   const handleCartClick = async () => {
     setCartDrawer((prev) => !prev);
-    const response = await apiClient.get(URLS.CART)
+    const response = await apiClient.post(URLS.CART, {   userId: userData.userId})
     if(response.code === 200) {
       dispatch(setCartData(response?.dataObject?.cartProducts ?? []))
     }
@@ -91,7 +108,7 @@ const DashboardHeader = () => {
   };
 
   const onclickLogo = () => {
-    navigate("/dashboard");
+    getDashboardData()
   };
 
   return (

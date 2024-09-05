@@ -87,12 +87,12 @@ export const dashboardSlice = createSlice({
       const { prodId, shouldIncrease } = action.payload;
       state.cart = state.cart.map((item) => {
         if (item?.productId === prodId) {
-          if (item.cartQty < 1) {
+          if (item.quantity < 1) {
             return item;
           } else {
             return {
               ...item,
-              cartQty: shouldIncrease ? item.cartQty + 1 : item.cartQty - 1,
+              quantity: shouldIncrease ? item.quantity + 1 : item.quantity - 1,
             };
           }
         }

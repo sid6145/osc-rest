@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductList from "../../components/ProductList";
 import { addToCart, handleCartCountChange } from "../../redux/dashboardSlice";
 import { handleScrollIntoView } from "../../utils/helpers";
+import { apiClient } from "../../api/apiClient";
+import { URLS } from "../../constants";
+import { useParams } from "react-router-dom";
 
 const InfoWrap = ({ title, children, className, style }) => {
   return (
@@ -21,14 +24,26 @@ const InfoWrap = ({ title, children, className, style }) => {
 };
 
 const ProductDetails = (props) => {
-  const { productDetails,cart } = useSelector((state) => state.dashboardSlice);
+  const { productDetails, cart } = useSelector((state) => state.dashboardSlice);
   const increasedValue =
-  productDetails?.prodMarketPrice + productDetails?.prodMarketPrice * (7 / 100);
+    productDetails?.prodMarketPrice || productDetails?.prodPrice + productDetails?.prodMarketPrice || Math.floor(productDetails?.prodPrice * (7 / 100));
   const userData = JSON.parse(localStorage.getItem("userData"))
+
+  const params = useParams();
+
+
   const dispatch = useDispatch()
 
-  const onAddtoCart = (prodId) => {
+  const onAddtoCart = async (prodId) => {
     // sendMessage({ MT: "9", userId: userData.userId, prodId });
+    const response = await apiClient.post(URLS.CART_INCREASE, {
+      count: 1,
+      userId: userData.userId,
+      prodId: prodId
+    });
+    if (response.code === 200) {
+      console.log("Success")
+    }
     const cartItem = {
       productPrice: productDetails.prodPrice,
       prodName: productDetails.prodName,
@@ -42,9 +57,9 @@ const ProductDetails = (props) => {
   }, [productDetails?.prodId]);
 
   useEffect(() => {
-   dispatch(handleCartCountChange())
+    dispatch(handleCartCountChange())
   }, [cart])
-  
+
   return (
     <>
       <Grid id="prod" container className="prod-root">

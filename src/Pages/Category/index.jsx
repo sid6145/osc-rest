@@ -5,7 +5,7 @@ import ProductList from "../../components/ProductList";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { apiClient } from "../../api/apiClient";
 import { URLS } from "../../constants";
 import { setCategories } from "../../redux/dashboardSlice";
@@ -17,6 +17,8 @@ const Category = () => {
     { label: "Price - High to Low", filter: "HL" },
     { label: "Newest First", filter: "NF" },
   ];
+
+  const dispatch  = useDispatch()
 
   const [selectedOption, setSelectedOption] = useState("P");
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -34,7 +36,7 @@ const Category = () => {
       filter: key
     })
     if(response.code === 200) {
-      setCategories(response?.dataObject?.products)
+      dispatch(setCategories(response?.dataObject?.products))
     }
   }
 
@@ -93,7 +95,7 @@ const Category = () => {
         </div>
       </div>
       <div>
-        <ProductList productData={productCategories} />
+        <ProductList productData={productCategories} categoryId={params.catId}/>
       </div>
     </div>
   );
