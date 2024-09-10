@@ -64,7 +64,7 @@ const OtpForm = (props) => {
         }
         const payload = {
           userId: userData.userId,
-          OTP: values.otpId,
+          OTP: values.otpId.toString(),
         };
         const response = await apiClient.post(URLS.VERIFY_OTP, payload);
         if (response.code === 500) {
