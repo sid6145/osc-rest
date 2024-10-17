@@ -33,10 +33,6 @@ const Dashboard = (props) => {
   };
 
   useEffect(() => {
-    window.location.reload()
-  },[])
-
-  useEffect(() => {
     if(categories?.length) return 
     getDashboardData();
     dispatch(handleCartCountChange())

@@ -58,6 +58,7 @@ const DashboardHeader = () => {
         )
       );
       navigate("/dashboard");
+      window.location.reload()
     }
   };
 
