@@ -23,7 +23,7 @@ export const URLS = {
   RESEND_OTP: `${BASE_URL_TWO}/user/resendotp`,
   DASHBOARD: `${BASE_URL_TWO}/user/dashBoard`,
   PRODUCT_DETAILS: `${BASE_URL_TWO}/product/details`,
-  PRODUCT_FILTER: `${BASE_URL_TWO}/filter/product/`,
+  PRODUCT_FILTER: `${BASE_URL_TWO}/filter/product`,
   CART: `${BASE_URL_TWO}/user/cart/view`,
   CART_INCREASE: `${BASE_URL_TWO}/user/cart/increase`,
   CART_DECREASE: `${BASE_URL_TWO}/user/cart/decrease`,

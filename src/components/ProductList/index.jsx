@@ -13,7 +13,7 @@ import { URLS } from "../../constants";
 
 const ProductList = (props) => {
   const { categoryTitle, productData, categoryId} = props;
-  const userData = localStorage.getItem("userData")
+  const userData = JSON.parse(localStorage.getItem("userData"))
   const navigate = useNavigate()
   const dispatch = useDispatch()
 

@@ -47,7 +47,7 @@ const CartItem = (props) => {
   };
 
   const handleOnClickDelete = async (prodId) => {
-    const response = await apiClient.post(URLS.CART_INCREASE, {
+    const response = await apiClient.post(URLS.CART_REMOVE, {
       userId: userData.userId ,
       prodId: prodId
     });
