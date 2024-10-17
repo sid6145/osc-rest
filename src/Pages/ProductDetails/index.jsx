@@ -148,6 +148,7 @@ const ProductDetails = (props) => {
       <div className="similar-products">
         <ProductList
           categoryTitle="Similar Products"
+          categoryId={params.catId}          
           productData={
             productDetails?.similarProducts?.length
               ? productDetails.similarProducts
