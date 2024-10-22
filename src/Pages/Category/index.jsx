@@ -72,6 +72,7 @@ const Category = () => {
 
   useEffect(() => {
     setSelectedSortOption("P")
+    handleSortApi("P")
   }, []);
 
   const { productCategories } = useSelector((state) => state.dashboardSlice);

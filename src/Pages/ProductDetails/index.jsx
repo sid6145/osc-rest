@@ -8,7 +8,7 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import DoneIcon from "@mui/icons-material/Done";
 import { useDispatch, useSelector } from "react-redux";
 import ProductList from "../../components/ProductList";
-import { addToCart, handleCartCountChange } from "../../redux/dashboardSlice";
+import { addToCart, handleCartCountChange, setProductDetails } from "../../redux/dashboardSlice";
 import { handleScrollIntoView } from "../../utils/helpers";
 import { apiClient } from "../../api/apiClient";
 import { URLS } from "../../constants";
@@ -31,6 +31,23 @@ const ProductDetails = (props) => {
 
   const params = useParams();
 
+  const handleGetProductDetails = async () => {
+    const params  = useParams()
+    const categoryId = params.catId
+    const productId = params.prodId
+    const response = await apiClient.post(URLS.PRODUCT_DETAILS, {
+      userId: userData.userId,
+      catId: categoryId,
+      prodId: productId,
+    });
+    if (response?.code === 200) {
+      dispatch(setProductDetails(response.dataObject));
+    }
+  }
+
+  useEffect(() => {
+    handleGetProductDetails()
+  },[])
 
   const dispatch = useDispatch()
 

@@ -26,13 +26,11 @@ const ProductList = (props) => {
         catId: catId || categoryId,
         prodId: prodId,
       });
-      console.log("response::>",prodId)
       if (response?.code === 200) {
         dispatch(setProductDetails(response.dataObject));
-        navigate(`/product/${prodId}?catId=${catId}`);
+        navigate(`/product/${prodId}?prodId=${prodId}&catId=${catId}`);
       }
     } else {
-      console.log("response:::",userData)
       const response = await apiClient.post(URLS.PRODUCT_FILTER, {
         userId: userData.userId,
         catId: catId,
